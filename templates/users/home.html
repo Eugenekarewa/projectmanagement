@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Project Management System</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Link to your CSS file if needed -->
+    
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Project Management System</h1>
+    </header>
+    
+    <nav>
+        <p>
+            <a href="{% url 'login' %}">Login</a> | 
+            <a href="{% url 'signup' %}">Sign Up</a>
+        </p>
+    </nav>
+
+    <footer>
+        <p>&copy; 2024 Project Management System</p>
+    </footer>
+</body>
+</html>

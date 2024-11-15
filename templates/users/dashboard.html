@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tech Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        .row.content { height: auto; }
+        
+        /* Set gray background color and 100% height */
+        .sidenav {
+            background-color: #f1f1f1;
+            height: 100%;
+        }
+
+        .well {
+            margin-bottom: 20px;
+        }
+
+        .performance-graph {
+            height: 200px;
+            background-color: #e9ecef;
+            border: 1px solid #ddd;
+            position: relative;
+        }
+        
+        .graph-data {
+            position: absolute;
+            height: 100%;
+            width: 0;
+            background-color: #4CAF50; /* Green */
+            transition: width 0.5s;
+        }
+        
+        /* On small screens, set height to 'auto' for the grid */
+        @media screen and (max-width: 767px) {
+            .row.content { height: auto; } 
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse visible-xs">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                        
+            </button>
+            <a class="navbar-brand" href="#">Tech Logo</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Dashboard</a></li>
+                <li><a href="#">Events</a></li>
+                <li><a href="#">Blogs</a></li>
+                <li><a href="#">Projects</a></li>
+                <li><a href="#">Messages</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row content">
+        <div class="col-sm-3 sidenav hidden-xs">
+            <h2>Tech Logo</h2>
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="#">Dashboard</a></li>
+                <li><a href="#">Events</a></li>
+                <li><a href="#">Blogs</a></li>
+                <li><a href="#">Projects</a></li>
+                <li><a href="#">Messages</a></li>
+                <li><a href="#">Job Applications</a></li>
+                <li><form action="{% url 'logout' %}" method="post">{% csrf_token %}<button type="submit" class="btn btn-link navbar-btn">Logout</button></form></li>
+            </ul><br>
+        </div>
+
+        <div class="col-sm-9">
+            <div class="well">
+                <h4>Welcome, {{ user.username }}!</h4>
+                <p>Here's your personalized dashboard for managing your tech career.</p>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="well">
+                        <h4>Upcoming Events</h4>
+                        {% if events %}
+                        <ul>
+                            {% for event in events %}
+                            <li>{{ event.start.dateTime|default:event.start.date }} - {{ event.summary }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p>No upcoming events.</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="well">
+                        <h4>Blogs</h4>
+                        <ul>
+                            <li><a href="#">Understanding Machine Learning</a></li>
+                            <li><a href="#">Top 10 JavaScript Frameworks</a></li>
+                            <li><a href="#">The Future of Cloud Computing</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="well">
+                        <h4>Pending Projects</h4>
+                        <p>3 Projects Pending</p>
+                        <ul>
+                            <li>Website Redesign</li>
+                            <li>API Integration</li>
+                            <li>Mobile App Development</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="well">
+                        <h4>Messages</h4>
+                        <p>Sent: 12 | Received: 8</p>
+                        <ul>
+                            <li>Meeting Reminder</li>
+                            <li>Project Feedback</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="well">
+                        <h4>Emails</h4>
+                        <p>Inbox: 5 | Sent: 3</p>
+                        <ul>
+                            <li>Weekly Newsletter</li>
+                            <li>Job Application Confirmation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="well">
+                        <h4>Job Applications</h4>
+                        <p>Applied: 2 | Interviews Scheduled: 1</p>
+                        <ul>
+                            <li>Frontend Developer at XYZ</li>
+                            <li>Data Scientist at ABC</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="well">
+                        <h4>Monthly Projects Built</h4>
+                        <p>Projects Built This Month: 4</p>
+                        <ul>
+                            <li>E-commerce Website</li>
+                            <li>Personal Blog</li>
+                            <li>Portfolio Site</li>
+                            <li>Chat Application</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="well">
+                        <h4>Performance Graph</h4>
+                        <div class="performance-graph">
+                            <div class="graph-data" style="width: 70%;"></div>
+                        </div>
+                        <p>Performance Over Time</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
